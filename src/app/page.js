@@ -8,7 +8,6 @@ import { onAuthStateChanged } from 'firebase/auth'
 import { db } from './config/Config'
 import { doc, addDoc, getDoc, getDocs, collection, get } from "firebase/firestore";
 import Article from './components/Article/page'
-import Loader from './components/Loader/Page'
 
 
 export default function Home() {
