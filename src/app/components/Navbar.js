@@ -13,7 +13,7 @@ const Navbar = ({ username, pathname, userId }) => {
     <div className='w-screen bg-purple-900 pr-[70px] pl-[70px] pb-[10px] pt-[10px] flex justify-between items-center'>
       <h3 className='m-0 text-white font-bold text-xl '>Personal Blogging App</h3>
       {username ? <span className='m-0 font-bold text-white'><Link href="/Profile">{username}</Link></span> :
-        pathname == '/Login' ? <span className='m-0 font-bold text-white'><Link href="/SignUp">SignUp</Link></span>
+        pathname == '/Login' ?<div> <span className='m-0 mx-4 font-bold text-white'><Link href="/">HomeScreen</Link></span><span className='m-0 font-bold text-white'><Link href="/SignUp">SignUp</Link></span></div>
           :
           pathname == '/Profile'? <span className='m-0 font-bold text-white'><Link href="/">Dashboard</Link>
           </span>:

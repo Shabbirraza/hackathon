@@ -23,8 +23,10 @@ const SignUp = () => {
         <div className='bg-blue-200 h-screen'>
             <Navbar />
             <SubNavbar path="SignUp" />
+
+            {errorMsg ? <div className='m-auto w-[400px]  bg-red-500 text-white font-semibold rounded-lg p-4'>{errorMsg}</div> : null}
             <div className='w-full  bg-blue-200 flex justify-center items-start   '>
-                {errorMsg ? <div>{errorMsg}</div> : null}
+                
                 <form autoComplete='off' className='w-[400px] p-[25px] flex flex-col justify-center items-center mt-24 rounded-lg gap-y-3 bg-white'>
                     <input id="firstname" minLength="3" maxLength="20"
                         onChange={(e) => { setFirstname(e.target.value) }} value={firstname}
@@ -43,7 +45,7 @@ const SignUp = () => {
                         onChange={(e) => { setPassword(e.target.value) }} value={password}
                         className='p-[10px] w-[75%] outline-purple-900 rounded-lg ' required />
                     <input id="repeatPassword" placeholder='Repeat password'
-                        type='text' name='repeatPassword'
+                        type='password' name='repeatPassword'
                         onChange={(e) => { setRepeatPassword(e.target.value) }} value={repeatPassword}
                         className='p-[10px] w-[75%] outline-purple-900 rounded-lg ' required />
                     <button type="submit" className='p-[10px] bg-purple-900 rounded-lg text-white  font-semibold'
@@ -76,7 +78,8 @@ const SignUp = () => {
 
                                             }, 1500);
                                         } catch (e) {
-                                            console.error("Error adding document: ", e);
+                                            console.log("Error adding document: ", e);
+                                            setErrorMsg(e)
                                         }
                                     })
                                     .catch((error) => {
@@ -86,14 +89,14 @@ const SignUp = () => {
                                         setErrorMsg(errorMessage);
                                         setTimeout(() => {
                                             setErrorMsg('')
-                                        }, 3000);
+                                        }, 2000);
 
                                     });
                             }else{
                                 setErrorMsg("passwords dont match")
                                 setTimeout(() => {
                                     setErrorMsg('')
-                                }, 500);
+                                }, 1500);
                                 
                             }
 

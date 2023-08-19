@@ -20,9 +20,10 @@ const Profile = () => {
             router.push("/Login")
         }
         else {
-            setUser(auth.currentUser)
+            console.log(auth.currentUser.email)
+            setUser(auth.currentUser.email)
         }
-    }, 1000);
+    }, 500);
 let changePass=()=>{
     if (newPassword == checkpass) {
         const password = newPassword;
@@ -46,8 +47,8 @@ let changePass=()=>{
             <div className='ml-[70px] mt-[5px] w-[70%] rounded-lg p-[10px] text-white font-semibold bg-red-500'>To change Password logout and login again</div>
             <div className='ml-[70px] mt-[20px] w-[70%] rounded-lg p-[10px] bg-white gap-y-2  flex flex-col justify-start  '>
                 <div className='w-[150px] h-[150px] bg-black rounded-lg'></div>
-                <span className='font-extrabold text-xl'>Shabbir</span>
-                <span className='font-extrabold text-xl'>Password</span>
+                <span className='font-extrabold text-xl'>{user}</span>
+                <span className='font-extrabold text-xl'>Change Password</span>
                 <input placeholder='Old Password' className='p-[10px] w-[190px] outline-purple-900 rounded-lg'
                     onChange={(e) => { setOldPassword(e.target.value) }}
                     value={oldPassword}

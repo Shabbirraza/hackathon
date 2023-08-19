@@ -27,6 +27,8 @@ const Article = ({ title, desc, dateval, name, user, publisherId, readMoreOfThis
             {/* {user ? null : <button className='bg-blue-500 text-white p-3 font-semibold rounded-lg'>Read more of this Publisher</button>} */}
             {publisherId ? <button className='bg-blue-500 text-white p-3 font-semibold rounded-lg'
                 onClick={ async() => {
+                    publisherCollection =[]
+                    setPublisherCollection([...publisherCollection])
                     setReadMoreOfThis(true)
                     console.log(readMoreOfThis)
                     console.log(publisherId)

@@ -18,10 +18,20 @@ const Login = () => {
     let [successMsg, setsuccessMsg] = useState('')
     let [errorMsg, setErrorMsg] = useState('')
     console.log(auth.currentUser)
+    setTimeout(() => {
+        console.log(auth.currentUser)
+        if (auth.currentUser == null) {
+           
+        }
+        else {
+            router.push("/")
+        }
+    }, 500);
     return (
         <div className='bg-blue-200 h-screen'>
             <Navbar pathname={pathname}/>
             <SubNavbar path="Login" />
+            {errorMsg ? <div className='m-auto w-[400px]  bg-red-500 text-white font-semibold rounded-lg p-4'>{errorMsg}</div> : null}
             <div className='w-full  bg-blue-200 flex justify-center items-start   '>
                 <form className='w-[300px] p-[25px] flex flex-col justify-center items-center mt-24 rounded-lg gap-y-3 bg-white'>
                     <input placeholder='Email' className='p-[10px] outline-purple-900 rounded-lg'
