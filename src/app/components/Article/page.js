@@ -41,7 +41,7 @@ const Article = ({ currentUserArticles, setCurrentUserArticles, docId, currentUs
     }
 
     return (
-        <div className='w-[60%] ml-[70px] p-5 shadow-2xl  border-black rounded-xl mt-10'>
+        <div className='w-[90%]  ml-[20px] md:ml-[70px] p-5 shadow-2xl  border-black rounded-xl mt-10'>
 
             <div className='flex w-[50%] flex-col gap-y-4'>
                 <div className='h-[70px] w-[70px] bg-black rounded-lg '>

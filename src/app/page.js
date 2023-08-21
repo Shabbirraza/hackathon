@@ -94,8 +94,9 @@ export default function Home() {
       </div> :
         <>
 
-          {readMoreOfThis ? <div className='w-screen min-h-screen p-10 overflow-x-hidden bg-white m-0 flex flex-col gap-y-10'>
-            <button className="bg-purple-900 text-white w-[20%] ml-[70px] p-4 rounded-lg" onClick={() => setReadMoreOfThis(false)}>Back</button>
+          {readMoreOfThis ? <div className='w-full min-h-screen  overflow-hidden bg-white m-0 flex flex-col gap-y-10'>
+            <SubNavbar path={"Articles"} />
+            <button className="bg-purple-900 text-white w-[120px] ml-[20px] md:ml-[70px] p-4 px-10 text-center  rounded-lg" onClick={() => setReadMoreOfThis(false)}>Back</button>
 
             {
 
@@ -117,7 +118,7 @@ export default function Home() {
 
               <SubNavbar path="Welcome Readers" />
 
-              {userId ? <><div className='w-[60%] ml-[70px]  bg-blue-200 rounded-xl p-10'>
+              {userId ? <><div className='w-[90%] md:w-[70%] ml-[20px] md:ml-[70px] bg-blue-200 rounded-xl p-10'>
                 <input className='p-[10px] outline-purple-900 rounded-lg w-[90%] m-2' value={articleTitle}
                   onChange={(e) => {
                     setArticleTitle(e.target.value)

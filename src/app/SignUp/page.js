@@ -20,14 +20,14 @@ const SignUp = () => {
     let [errorMsg, setErrorMsg] = useState('')
     const router = useRouter();
     return (
-        <div className='bg-blue-200 h-screen'>
+        <div className='bg-white h-screen'>
             <Navbar />
             <SubNavbar path="SignUp" />
 
             {errorMsg ? <div className='m-auto w-[400px]  bg-red-500 text-white font-semibold rounded-lg p-4'>{errorMsg}</div> : null}
             <div className='w-full  bg-blue-200 flex justify-center items-start   '>
                 
-                <form autoComplete='off' className='w-[400px] p-[25px] flex flex-col justify-center items-center mt-24 rounded-lg gap-y-3 bg-white'>
+                <form autoComplete='off' className='w-[95%] sm:w-[400px] p-[25px] flex flex-col justify-center items-center mt-10 rounded-lg gap-y-3 bg-white'>
                     <input id="firstname" minLength="3" maxLength="20"
                         onChange={(e) => { setFirstname(e.target.value) }} value={firstname}
                         name='fname' type='text'
