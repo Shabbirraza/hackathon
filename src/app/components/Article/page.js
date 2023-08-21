@@ -1,13 +1,13 @@
 import React from 'react'
-import { collection,getDocs } from 'firebase/firestore'
+import { collection, getDocs } from 'firebase/firestore'
 import { db } from '@/app/config/Config'
 
 
-const Article = ({ setLoader,title, desc, dateval, name, user, publisherId, readMoreOfThis, setReadMoreOfThis,publisherCollection,setPublisherCollection }) => {
+const Article = ({ setLoader, title, desc, dateval, name, user, currentUser, publisherId, readMoreOfThis, setReadMoreOfThis, publisherCollection, setPublisherCollection }) => {
     return (
         <div className='w-[60%] ml-[70px] p-5 shadow-2xl  border-black rounded-xl mt-10'>
 
-            <div className='flex w-[50%] flex-col gap-y-2'>
+            <div className='flex w-[50%] flex-col gap-y-4'>
                 <div className='h-[70px] w-[70px] bg-black rounded-lg '>
 
                 </div>
@@ -21,14 +21,19 @@ const Article = ({ setLoader,title, desc, dateval, name, user, publisherId, read
                 <div><span className='text-sm font-bold '>{name}</span></div>
 
             </div>
-            <p className='font-light w-[90%] break-all'>
+            <p className='font-light w-[90%] break-all my-2'>
                 {desc}
             </p>
+           <div>
+            {currentUser == true ? <span><button className='text-white font-semibold bg-purple-900 p-4 rounded-xl ' >Edit</button>
+            <button className='text-white font-semibold bg-red-900 p-4 rounded-xl mx-4 '>Delete</button></span>:null}
+           </div>
+            
             {/* {user ? null : <button className='bg-blue-500 text-white p-3 font-semibold rounded-lg'>Read more of this Publisher</button>} */}
             {publisherId ? <button className='bg-purple-900 border-solid  text-white p-3 font-semibold rounded-lg'
-                onClick={ async() => {
-                    
-                    publisherCollection =[]
+                onClick={async () => {
+
+                    publisherCollection = []
                     setPublisherCollection([...publisherCollection])
                     setReadMoreOfThis(true)
                     console.log(readMoreOfThis)
@@ -38,13 +43,13 @@ const Article = ({ setLoader,title, desc, dateval, name, user, publisherId, read
                     docsSnap.forEach(doc => {
                         console.log(doc.data());
                         let docData = doc.data()
-                       
-                        
-                      
-                       
+
+
+
+
                         publisherCollection.push(docData)
                         setPublisherCollection([...publisherCollection])
-                       
+
                         console.log(publisherCollection)
                     })
 

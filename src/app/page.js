@@ -40,7 +40,7 @@ export default function Home() {
             console.log(doc.data());
             currentUserArticles.push(doc.data())
             setCurrentUserArticles([...currentUserArticles])
-            setLoader(false)
+            
           })
 
 
@@ -49,6 +49,7 @@ export default function Home() {
           // docSnap.data() will be undefined in this case
           console.log("No such document!");
         }
+        setLoader(false)
       }
       else {
 
@@ -78,7 +79,7 @@ export default function Home() {
       }
     })
   }, [])
-  console.log(totalArticles)
+ 
   return (
     <>
       {loader ? <div className='w-screen min-h-screen bg-blue-200  flex justify-center items-center'>
@@ -93,23 +94,23 @@ export default function Home() {
       </div> :
         <>
 
-          {readMoreOfThis ? <div className='w-screen min-h-screen p-10 overflow-x-hidden bg-white m-0 flex flex-col '>
-            <button className="bg-blue-600 text-white w-[20%] ml-[70px] p-4 rounded-lg" onClick={() => setReadMoreOfThis(false)}>Back</button>
-            
+          {readMoreOfThis ? <div className='w-screen min-h-screen p-10 overflow-x-hidden bg-white m-0 flex flex-col gap-y-10'>
+            <button className="bg-purple-900 text-white w-[20%] ml-[70px] p-4 rounded-lg" onClick={() => setReadMoreOfThis(false)}>Back</button>
+
             {
-              
+
               publisherCollection.map((value, index) => {
                 console.log(value)
-                
+
                 let na = new Date(value.date.seconds * 1000)
 
                 return (
-                  <Article title={value.title} desc={value.desc} dateval={na.toLocaleString()} name={value.name} />
+                  <Article key={index} title={value.title} desc={value.desc} dateval={na.toLocaleString()} name={value.name} />
                 )
               })
 
             }
-            
+
           </div> :
 
             <><Navbar username={userName} userId={userId} />
@@ -129,26 +130,33 @@ export default function Home() {
                 />
                 <button className='w-40 rounded-lg bg-purple-800  text-white p-5 m-2'
                   onClick={() => {
-                    console.log(userId)
-                    const dbRef = collection(db, `blog${userId}`);
-                    let Date = new Date();
-                    const data = {
-                      title: articleTitle,
-                      desc: articleDesc,
-                      date: Date,
-                      name: userName,
-                    };
-                    addDoc(dbRef, data)
-                      .then(docRef => {
-                        console.log("Document has been added successfully", docRef.id);
-                        setArticleDesc('')
-                        setArticleTitle('')
-                        currentUserArticles.push(data)
-                        setCurrentUserArticles([...currentUserArticles])
-                      })
-                      .catch(error => {
-                        console.log(error);
-                      })
+                    console.log(userId, articleDesc.length, articleTitle.length)
+                    if (articleDesc.length < 3000 & articleDesc.length > 100 & articleTitle.length > 5 & articleTitle.length < 50) {
+                      const dbRef = collection(db, `blog${userId}`);
+                      let date = new Date();
+
+                      console.log(date)
+                      const data = {
+                        title: articleTitle,
+                        desc: articleDesc,
+                        date: date,
+                        name: userName,
+                      };
+                      addDoc(dbRef, data)
+                        .then(docRef => {
+                          console.log("Document has been added successfully", docRef.id);
+                          setArticleDesc('')
+                          setArticleTitle('')
+                          currentUserArticles.push(data)
+                          setCurrentUserArticles([...currentUserArticles])
+                        })
+                        .catch(error => {
+                          console.log(error);
+                        })
+
+                    }else{
+                      alert('please enter title betweeen 5 to 50 letters and desc between 100 to 3000 letters')
+                    }
 
 
                   }}
@@ -159,10 +167,12 @@ export default function Home() {
                 {currentUserArticles.map((value, index) => {
 
                   let na = new Date(value.date.seconds * 1000)
+                  na=na.toLocaleString()
+                  console.log(na)
 
                   return (
 
-                    <Article key={index} title={value.title} desc={value.desc} dateval={na.toLocaleString()} name={value.name} user={userName} />)
+                    <Article key={index} title={value.title} desc={value.desc} dateval={na.toLocaleString()} name={value.name} user={userName} currentUser={true} />)
 
                 })}
 
@@ -173,7 +183,7 @@ export default function Home() {
                 return (
                   <Article key={index} title={value.title} desc={value.desc} dateval={na.toLocaleString()} name={value.name}
                     readMoreOfThis={readMoreOfThis} setReadMoreOfThis={setReadMoreOfThis} publisherCollection={publisherCollection} setPublisherCollection={setPublisherCollection}
-                    user={userName} publisherId={value.id} setLoader={setLoader}/>)
+                    user={userName} publisherId={value.id} setLoader={setLoader} />)
               })}</>}
 
         </>
