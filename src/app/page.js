@@ -6,7 +6,7 @@ import Navbar from './components/Navbar'
 import SubNavbar from './components/SubNavbar/page'
 import { onAuthStateChanged } from 'firebase/auth'
 import { db } from './config/Config'
-import { doc, addDoc, getDoc, getDocs, collection, get } from "firebase/firestore";
+import { doc, addDoc, getDoc, getDocs, collection, get,updateDoc,deleteDoc  } from "firebase/firestore";
 import Article from './components/Article/page'
 
 
@@ -40,7 +40,7 @@ export default function Home() {
             console.log(doc.data());
             currentUserArticles.push(doc.data())
             setCurrentUserArticles([...currentUserArticles])
-            
+
           })
 
 
@@ -79,7 +79,7 @@ export default function Home() {
       }
     })
   }, [])
- 
+
   return (
     <>
       {loader ? <div className='w-screen min-h-screen bg-blue-200  flex justify-center items-center'>
@@ -145,16 +145,28 @@ export default function Home() {
                       addDoc(dbRef, data)
                         .then(docRef => {
                           console.log("Document has been added successfully", docRef.id);
+                          const newRef = doc(db, `blog${userId}`, docRef.id);
+                          const newData = {
+                            id: docRef.id
+                          };
+                          updateDoc(newRef, newData)
+                            .then(e => {
+                              console.log("A New Document Field has been added to an existing document");
+                            })
+                            .catch(error => {
+                              console.log(error);
+                            })
                           setArticleDesc('')
                           setArticleTitle('')
                           currentUserArticles.push(data)
                           setCurrentUserArticles([...currentUserArticles])
+                          window.location.reload()
                         })
                         .catch(error => {
                           console.log(error);
                         })
 
-                    }else{
+                    } else {
                       alert('please enter title betweeen 5 to 50 letters and desc between 100 to 3000 letters')
                     }
 
@@ -165,14 +177,15 @@ export default function Home() {
 
               </div>
                 {currentUserArticles.map((value, index) => {
-
+                  console.log(value)
                   let na = new Date(value.date.seconds * 1000)
-                  na=na.toLocaleString()
+                  na = na.toLocaleString()
                   console.log(na)
+                  console.log(value.id)
 
                   return (
 
-                    <Article key={index} title={value.title} desc={value.desc} dateval={na.toLocaleString()} name={value.name} user={userName} currentUser={true} />)
+                    <Article currentUserArticles={currentUserArticles} setCurrentUserArticles={setCurrentUserArticles} currentUserId={userId} docId={value.id} key={index} title={value.title} desc={value.desc} dateval={na.toLocaleString()} name={value.name} user={userName} currentUser={true} />)
 
                 })}
 
