@@ -1,7 +1,7 @@
 'use client'
 import React from 'react'
 import Navbar from '../components/Navbar'
-import { onAuthStateChanged, unsubscribe ,updatePassword} from 'firebase/auth'
+import { onAuthStateChanged, unsubscribe, updatePassword } from 'firebase/auth'
 import { useState } from 'react'
 import SubNavbar from '../components/SubNavbar/page'
 import { auth } from '../config/Config'
@@ -14,6 +14,9 @@ const Profile = () => {
     let [user, setUser] = useState('')
     const router = useRouter()
 
+
+    const [currentUserStatus, setcurrentUserStatus] = useState(false)
+
     setTimeout(() => {
         console.log(auth.currentUser)
         if (auth.currentUser == null) {
@@ -22,54 +25,70 @@ const Profile = () => {
         else {
             console.log(auth.currentUser.email)
             setUser(auth.currentUser.email)
+            setcurrentUserStatus(true)
         }
     }, 500);
-let changePass=()=>{
-    if (newPassword == checkpass) {
-        const password = newPassword;
+    let changePass = () => {
+        if (newPassword == checkpass) {
+            const password = newPassword;
 
-        updatePassword(user, password).then(() => {
-            // Update successful.
-            console.log("password updated")
-        }).catch((error) => {
-            // An error ocurred
-            // ...
-            console.log(error)
-        });
+            updatePassword(user, password).then(() => {
+                // Update successful.
+                console.log("password updated")
+            }).catch((error) => {
+                // An error ocurred
+                // ...
+                console.log(error)
+            });
+        }
+
     }
 
-}
-
     return (
-        <div className='h-screen bg-blue-200'>
-            <Navbar pathname='/Profile'/>
-            <SubNavbar />
-            <div className='ml-[70px] mt-[5px] w-[70%] rounded-lg p-[10px] text-white font-semibold bg-red-500'>To change Password logout and login again</div>
-            <div className='ml-[70px] mt-[20px] w-[70%] rounded-lg p-[10px] bg-white gap-y-2  flex flex-col justify-start  '>
-                <div className='w-[150px] h-[150px] bg-black rounded-lg'></div>
-                <span className='font-extrabold text-xl'>{user}</span>
-                <span className='font-extrabold text-xl'>Change Password</span>
-                <input placeholder='Old Password' className='p-[10px] w-[190px] outline-purple-900 rounded-lg'
-                    onChange={(e) => { setOldPassword(e.target.value) }}
-                    value={oldPassword}
-                    type='password'
-                />
-                <input placeholder='Password' className='p-[10px] w-[190px] outline-purple-900 rounded-lg '
-                    onChange={(e) => { setNewPassword(e.target.value) }}
-                    value={newPassword}
-                    type='password'
-                />
-                <input placeholder='repeat Password' className='p-[10px] w-[190px] outline-purple-900 rounded-lg '
-                    onChange={(e) => { setCheckpass(e.target.value) }}
-                    value={checkpass}
-                    type='password'
-                />
-                <button className='pt-[10px] pb-[10px] w-[180px] pr-5 pl-5 bg-purple-900 rounded-lg text-white  font-semibold'
-                    onClick={() => changePass()}
-                >Update Password</button>
+        <>
+            {currentUserStatus == false ? <div className='w-screen min-h-screen bg-blue-200  flex justify-center items-center'>
+                <div
+                    class="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]"
+                    role="status">
+                    <span
+                        class="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]"
+                    >Loading...</span
+                    >
+                </div>
+            </div> :
+                <div className='h-screen bg-blue-200'>
+                    <Navbar pathname='/Profile' />
+                    <SubNavbar />
+                    <div className='ml-[70px] mt-[5px] w-[70%] rounded-lg p-[10px] text-white font-semibold bg-red-500'>To change Password logout and login again</div>
+                    <div className='ml-[70px] mt-[20px] w-[70%] rounded-lg p-[10px] bg-white gap-y-2  flex flex-col justify-start  '>
+                        <div className='w-[150px] h-[150px] bg-black rounded-lg'></div>
+                        <span className='font-extrabold text-xl'>{user}</span>
+                        <span className='font-extrabold text-xl'>Change Password</span>
+                        <input placeholder='Old Password' className='p-[10px] w-[190px] outline-purple-900 rounded-lg'
+                            onChange={(e) => { setOldPassword(e.target.value) }}
+                            value={oldPassword}
+                            type='password'
+                        />
+                        <input placeholder='Password' className='p-[10px] w-[190px] outline-purple-900 rounded-lg '
+                            onChange={(e) => { setNewPassword(e.target.value) }}
+                            value={newPassword}
+                            type='password'
+                        />
+                        <input placeholder='repeat Password' className='p-[10px] w-[190px] outline-purple-900 rounded-lg '
+                            onChange={(e) => { setCheckpass(e.target.value) }}
+                            value={checkpass}
+                            type='password'
+                        />
+                        <button className='pt-[10px] pb-[10px] w-[180px] pr-5 pl-5 bg-purple-900 rounded-lg text-white  font-semibold'
+                            onClick={() => changePass()}
+                        >Update Password</button>
 
-            </div>
-        </div>
+                    </div>
+                </div>
+
+            }
+
+        </>
     )
 }
 
