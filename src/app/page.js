@@ -72,10 +72,11 @@ export default function Home() {
             console.log(docData)
             totalArticles.push(docData)
             setTotalArticles([...totalArticles])
-            setLoader(false)
+            
           })
-
+          
         })
+        setLoader(false)
       }
     })
   }, [])

@@ -12,6 +12,7 @@ const Profile = () => {
     let [newPassword, setNewPassword] = useState("")
     let [checkpass, setCheckpass] = useState('')
     let [user, setUser] = useState('')
+    let [newUser, setnewUser] = useState('')
     const router = useRouter()
 
 
@@ -25,14 +26,16 @@ const Profile = () => {
         else {
             console.log(auth.currentUser.email)
             setUser(auth.currentUser.email)
+            setnewUser(auth.currentUser)
             setcurrentUserStatus(true)
+            console.log(newUser)
         }
     }, 500);
     let changePass = () => {
         if (newPassword == checkpass) {
             const password = newPassword;
 
-            updatePassword(user, password).then(() => {
+            updatePassword(newUser, password).then(() => {
                 // Update successful.
                 console.log("password updated")
             }).catch((error) => {
@@ -58,10 +61,10 @@ const Profile = () => {
             </div> :
                 <div className='h-screen bg-blue-200'>
                     <Navbar pathname='/Profile' />
-                    <SubNavbar />
-                    <div className='ml-[70px] mt-[5px] w-[70%] rounded-lg p-[10px] text-white font-semibold bg-red-500'>To change Password logout and login again</div>
-                    <div className='ml-[70px] mt-[20px] w-[70%] rounded-lg p-[10px] bg-white gap-y-2  flex flex-col justify-start  '>
-                        <div className='w-[150px] h-[150px] bg-black rounded-lg'></div>
+                  
+                    <div className='ml-[20px] md:ml-[70px] mt-[5px] w-[70%] rounded-lg p-[10px] text-white font-semibold bg-red-500'>To change Password logout and login again</div>
+                    <div className='ml-[20px] md:ml-[70px] mt-[20px] w-[90%] md:w-[70%] rounded-lg p-[15px] pl-[20px] bg-white gap-y-2  flex flex-col justify-start  '>
+                        <div className='w-[100px] h-[100px] bg-black rounded-lg'></div>
                         <span className='font-extrabold text-xl'>{user}</span>
                         <span className='font-extrabold text-xl'>Change Password</span>
                         <input placeholder='Old Password' className='p-[10px] w-[190px] outline-purple-900 rounded-lg'
