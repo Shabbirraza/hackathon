@@ -6,6 +6,9 @@ import { useState } from 'react'
 import SubNavbar from '../components/SubNavbar/page'
 import { auth } from '../config/Config'
 import { useRouter } from 'next/navigation'
+import { db } from '../config/Config'
+import { getDoc, doc } from 'firebase/firestore'
+// import{}
 
 const Profile = () => {
     let [oldPassword, setOldPassword] = useState("")
@@ -13,22 +16,40 @@ const Profile = () => {
     let [checkpass, setCheckpass] = useState('')
     let [user, setUser] = useState('')
     let [newUser, setnewUser] = useState('')
+    let [imageUrl, setImageUrl] = useState("")
+
     const router = useRouter()
 
 
     const [currentUserStatus, setcurrentUserStatus] = useState(false)
 
-    setTimeout(() => {
+    setTimeout(async () => {
         console.log(auth.currentUser)
         if (auth.currentUser == null) {
             router.push("/Login")
         }
         else {
-            console.log(auth.currentUser.email)
+            console.log(auth.currentUser.uid)
             setUser(auth.currentUser.email)
             setnewUser(auth.currentUser)
-            setcurrentUserStatus(true)
+
             console.log(newUser)
+
+
+
+            const docRef = doc(db, "users", auth.currentUser.uid);
+            const docSnap = await getDoc(docRef);
+
+            if (docSnap.exists()) {
+                console.log("Document data:", docSnap.data().imageUrl);
+                setImageUrl(docSnap.data().imageUrl)
+                setcurrentUserStatus(true)
+
+
+            } else {
+                // docSnap.data() will be undefined in this case
+                console.log("No such document!");
+            }
         }
     }, 500);
     let changePass = () => {
@@ -61,10 +82,10 @@ const Profile = () => {
             </div> :
                 <div className='h-screen bg-blue-200'>
                     <Navbar pathname='/Profile' />
-                  
+
                     <div className='ml-[20px] md:ml-[70px] mt-[5px] w-[70%] rounded-lg p-[10px] text-white font-semibold bg-red-500'>To change Password logout and login again</div>
                     <div className='ml-[20px] md:ml-[70px] mt-[20px] w-[90%] md:w-[70%] rounded-lg p-[15px] pl-[20px] bg-white gap-y-2  flex flex-col justify-start  '>
-                        <div className='w-[100px] h-[100px] bg-black rounded-lg'></div>
+                        <img src={imageUrl} className='w-[100px] h-[100px]  rounded-lg'></img>
                         <span className='font-extrabold text-xl'>{user}</span>
                         <span className='font-extrabold text-xl'>Change Password</span>
                         <input placeholder='Old Password' className='p-[10px] w-[190px] outline-purple-900 rounded-lg'

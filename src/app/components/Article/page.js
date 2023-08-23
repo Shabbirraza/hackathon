@@ -3,7 +3,7 @@ import { collection, getDocs, doc, updateDoc, deleteDoc } from 'firebase/firesto
 import { db } from '@/app/config/Config'
 
 
-const Article = ({ currentUserArticles, setCurrentUserArticles, docId, currentUserId, setLoader, title, desc, dateval, name, user, currentUser, publisherId, readMoreOfThis, setReadMoreOfThis, publisherCollection, setPublisherCollection }) => {
+const Article = ({imageUrl, currentUserArticles, setCurrentUserArticles, docId, currentUserId, setLoader, title, desc, dateval, name, user, currentUser, publisherId, readMoreOfThis, setReadMoreOfThis, publisherCollection, setPublisherCollection }) => {
 
     function handleClick() {
         let promptval = prompt("enter data")
@@ -44,9 +44,9 @@ const Article = ({ currentUserArticles, setCurrentUserArticles, docId, currentUs
         <div className='w-[90%]  ml-[20px] md:ml-[70px] p-5 shadow-2xl  border-black rounded-xl mt-10'>
 
             <div className='flex w-[50%] flex-col gap-y-4'>
-                <div className='h-[70px] w-[70px] bg-black rounded-lg '>
+                <img src={imageUrl} className='h-[70px] w-[70px] bg-black rounded-lg '>
 
-                </div>
+                </img>
 
                 <p className='text-xl font-bold w-[100%] break-all'>{title}</p>
                 <div>

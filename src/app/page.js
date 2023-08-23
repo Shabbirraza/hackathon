@@ -20,6 +20,7 @@ export default function Home() {
   let [readMoreOfThis, setReadMoreOfThis] = useState(false)
   let [publisherCollection, setPublisherCollection] = useState([])
   let [loader, setLoader] = useState(true)
+  let [imageUrl , setImageUrl ] =useState("")
   useEffect(() => {
 
     onAuthStateChanged(auth, async (user) => {
@@ -34,6 +35,7 @@ export default function Home() {
         if (docSnap.exists()) {
           console.log("Document data:", docSnap.data());
           setUserName(docSnap.data().userName)
+          setImageUrl (docSnap.data().imageUrl)
           const colRef = collection(db, `blog${userId}`);
           const docsSnap = await getDocs(colRef);
           docsSnap.forEach(doc => {
@@ -143,6 +145,7 @@ export default function Home() {
                         desc: articleDesc,
                         date: date,
                         name: userName,
+                        imageUrl : imageUrl,
                       };
                       addDoc(dbRef, data)
                         .then(docRef => {
@@ -160,9 +163,10 @@ export default function Home() {
                             })
                           setArticleDesc('')
                           setArticleTitle('')
+                          data['id']=docRef.id
                           currentUserArticles.push(data)
                           setCurrentUserArticles([...currentUserArticles])
-                          window.location.reload()
+                          // window.location.reload()
                         })
                         .catch(error => {
                           console.log(error);
@@ -181,13 +185,14 @@ export default function Home() {
                 {currentUserArticles.map((value, index) => {
                   console.log(value)
                   let na = new Date(value.date.seconds * 1000)
+                  console.log(value.date)
                   na = na.toLocaleString()
                   console.log(na)
                   console.log(value.id)
 
                   return (
 
-                    <Article currentUserArticles={currentUserArticles} setCurrentUserArticles={setCurrentUserArticles} currentUserId={userId} docId={value.id} key={index} title={value.title} desc={value.desc} dateval={na.toLocaleString()} name={value.name} user={userName} currentUser={true} />)
+                    <Article imageUrl={value.imageUrl} currentUserArticles={currentUserArticles} setCurrentUserArticles={setCurrentUserArticles} currentUserId={userId} docId={value.id} key={index} title={value.title} desc={value.desc} dateval={na.toLocaleString()} name={value.name} user={userName} currentUser={true} />)
 
                 })}
 
@@ -196,7 +201,7 @@ export default function Home() {
               {totalArticles.map((value, index) => {
                 let na = new Date(value.date.seconds * 1000)
                 return (
-                  <Article key={index} title={value.title} desc={value.desc} dateval={na.toLocaleString()} name={value.name}
+                  <Article imageUrl={value.imageUrl} key={index} title={value.title} desc={value.desc} dateval={na.toLocaleString()} name={value.name}
                     readMoreOfThis={readMoreOfThis} setReadMoreOfThis={setReadMoreOfThis} publisherCollection={publisherCollection} setPublisherCollection={setPublisherCollection}
                     user={userName} publisherId={value.id} setLoader={setLoader} />)
               })}</>}

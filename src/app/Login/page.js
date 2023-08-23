@@ -28,12 +28,12 @@ const Login = () => {
         }
     }, 500);
     return (
-        <div className='bg-blue-200 h-screen'>
+        <div className=' h-screen'>
             <Navbar pathname={pathname}/>
             <SubNavbar path="Login" />
             {errorMsg ? <div className='m-auto w-[400px]  bg-red-500 text-white font-semibold rounded-lg p-4'>{errorMsg}</div> : null}
-            <div className='w-full  bg-blue-200 flex justify-center items-start   '>
-                <form className='w-[300px] p-[25px] flex flex-col justify-center items-center mt-24 rounded-lg gap-y-3 bg-white'>
+            <div className='w-full   flex justify-center items-start   '>
+                <form className='w-[300px]  shadow-2xl p-[25px] flex flex-col justify-center items-center mt-24 rounded-lg gap-y-3 bg-white'>
                     <input placeholder='Email' className='p-[10px] outline-purple-900 rounded-lg'
                         onChange={(e) => { setEmail(e.target.value) }} value={email} />
                     <input placeholder='Password' className='p-[10px] outline-purple-900 rounded-lg '
